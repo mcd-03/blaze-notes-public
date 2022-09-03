@@ -1,0 +1,61 @@
+{% extends "review/base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+<body>
+	<div id="layout-content">
+		<header>
+            <a href="{% url 'index' %}"><h1>Blaze Notes: {{ user.profile.course }}</h1></a>
+			<nav>
+				<div id="nav-right">
+				    <a href="{% url 'review' %}">Back to Review!</a>
+				    <a href="{% url 'logout' %}">Logout</a>
+				</div>
+			</nav>
+		</header>
+
+		<div class="middle">
+            <div>
+                <div>
+                {% if messages %}
+                {% for message in messages %}
+                    <div class="success">{{ message }}</div>
+                {% endfor %}
+                {% endif %}
+                </div>
+                <div>
+                    {% if user.profile.streak > 6 %}
+                        <img src="{% static 'review/fire3.svg' %}" id="fire-icon">
+                    {% elif user.profile.streak > 4 %}
+                        <img src="{% static 'review/fire2.svg' %}" id="fire-icon">
+                    {% elif user.profile.streak > 2 %}
+                        <img src="{% static 'review/fire1.svg' %}" id="fire-icon">
+                    {% else %}
+                        <img src="{% static 'review/fire0.svg' %}" id="fire-icon">
+                    {% endif %}
+                    <h2>Stats for: {{ user.username }}</h2>
+                    <p>Course: {{ user.profile.course }}</p>
+                    <p>Teacher: {{ user.profile.teacher }}</p>
+                    <p>Last Login: {{ user.last_login.date }}</p>
+                    <p>Hot Streak: {{ user.profile.streak }}</p>
+                </div>
+                <br>
+                <h2>Total days studied: {{ user.profile.login_count }}</h2>
+                <br>
+                <form method="POST">
+                    {% csrf_token %}
+                    <fieldset class="form-group">
+                        <legend>Update your Profile</legend>
+                        {{ form|crispy }}
+                    </fieldset>
+                    <br>
+                    <div class="form-group">
+                        <button type="submit">Submit Changes</button>
+                    </div>
+                </form>
+            </div>
+		</div>
+        <footer>Created by Jon McDowell</footer>
+	</div>
+</body>
+{% endblock content %}

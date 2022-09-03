@@ -1,0 +1,21 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% if title %}
+        <title>Blaze Notes - {{ title }}</title>
+    {% else %}
+        <title>Blaze Notes</title>
+    {% endif %}
+    <link rel="shortcut icon" type="image/svg" href="{% static 'review/blaze_logo.svg' %}"/>
+    <link rel="stylesheet" href="{% static 'review/style.css' %}" />
+    <script src="{% static 'review/script.js' %}"></script>
+</head>
+
+{% block content %}{% endblock %}
+
+</html>

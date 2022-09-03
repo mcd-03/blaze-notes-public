@@ -1,0 +1,29 @@
+{% extends "review/base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+<body class="unsaturated">
+	<picture>
+		<source class="overlay" media="(max-width: 600px)" srcset="{% static 'review/error-phone.jpg' %}">
+		<source class="overlay" media="(max-width: 1024px) and (min-width: 601px)" srcset="{% static 'review/error-tablet.jpg' %}">
+		<img class="overlay" src="{% static 'review/error-full.jpg' %}">
+	</picture>
+
+    <div id="layout-content">
+
+        <header>
+            <a href="{% url 'index' %}"><h1>Blaze Notes</h1></a>
+        </header>
+
+        <div class="middle">
+			<div>
+				<div class="homepage-info" >
+					<h1>Looks like you're lost</h1>
+					<h2>head back to the last trail marker</h2>
+				</div>
+			</div> 
+		</div>
+		<footer>Created by Jon McDowell</footer>
+    </div>
+</body>
+{% endblock content %}

@@ -1,0 +1,66 @@
+{% extends "review/base.html" %}
+{% block content %}
+<body onclick="closeMenu(this.id);">
+    <div id="layout-content">
+        <div id="selected-concept-wrapper" onclick="hideSelectedConcept();">
+            <div id="collapse-hint">
+                <h1>Click to Collapse</h1>
+            </div>
+            <div class="selected-concept" id="selected-concept">
+                <img id="selected-question" src="" />
+                <img id="selected-key" src="" />
+            </div>
+        </div>
+
+        <header>
+            <a href="{% url 'index' %}"><h1>Blaze Notes: {{ user.profile.course }}</h1></a>
+            <nav>
+                <div id="nav-right">
+                    <h2 class="closed" id="topic-menu" onclick="openMenu(); event.stopPropagation();">Topics
+                        <svg id="arrow" viewbox="0 0 24 24"><path d="M0 0L12 24 24 0 12 8Z"/></svg>
+                        <div id="drop-menu" style="display: none;">
+                        	<h2>Find a Topic:</h2>
+                            {# adds links #}
+                            {% if topics %}
+                                {% for topic in topics %}
+                                    <a class="review-links" onclick="showSelectedConcept('{{ topic.topic_img.url }}', '{{ topic.topic_key.url }}');">{{ topic.topic_name }}</a>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </h2>
+                    <a href="{% url 'profile' %}">Profile</a>
+                    {% if user.is_staff %}<a href="{% url 'class_stats' %}">Class Stats</a>{% endif %}
+                    <a href="{% url 'logout' %}">Logout</a>
+                </div>
+            </nav>
+        </header>
+
+        <div class="middle" >
+            <div id="review">
+            {# adds flip cards #}
+            {% if topics %}
+                {% for topic in topics %}
+                    {% if topic.time_to_review %}
+                        <div class="flip-card">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <img class="content" src='{{ topic.topic_img.url }}'/>
+                                </div>
+                                <div class="flip-card-back">
+                                    <img class="answer" src='{{ topic.topic_key.url }}'/>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+            {% if nothing_today %}
+                <p class="info">{{ nothing_today }}</p>
+            {% endif %}
+            </div>
+        </div>
+        <footer>Created by Jon McDowell</footer>
+    </div>
+</body>
+
+{% endblock content %}

@@ -1,0 +1,56 @@
+{% extends "review/base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+<body>
+
+    <div id="layout-content">
+
+        <header>
+			<a href="{% url 'index' %}"><h1>Blaze Notes</h1></a>
+            <nav>
+                <div id="nav-right">
+                    <a href="{% url 'register' %}">Create an Account </a>
+                </div>
+            </nav>
+        </header>
+
+        <div class="middle">
+			<div>
+				{% if messages %}
+					{% for message in messages %}
+						<div class="success">{{ message }}</div>
+					{% endfor %}
+				{% endif %}
+
+				{% if form.errors %}
+					<p class="error">Your username and password didn't match. Please try again.</p>
+				{% endif %}
+
+				{% if next %}
+					{% if user.is_authenticated %}
+						<p class="warning">Your account doesn't have access to this page. To proceed,
+						please login with an account that has access.</p>
+					{% else %}
+						<p class="info">Please login to see this page.</p>
+					{% endif %}
+				{% endif %}
+
+				<form method="post" action="{% url 'login' %}">
+					{% csrf_token %}
+					<fieldset>
+						<legend>Sign in</legend>
+						{{ form|crispy }}
+					</fieldset>
+					<br>
+					<div>
+						<button type="submit">Login</button>
+						<input type="hidden" name="next" value="{{ next }}">
+					</div>
+				</form>
+			</div> 
+		</div>
+		<footer>Created by Jon McDowell</footer>
+    </div>
+</body>
+{% endblock content %}

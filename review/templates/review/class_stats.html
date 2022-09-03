@@ -1,0 +1,50 @@
+{% extends "review/base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+<body>
+	<div id="layout-content">
+		<header>
+            <a href="{% url 'index' %}"><h1>Blaze Notes: {{ user.profile.course }}</h1></a>
+			<nav>
+				<div id="nav-right">
+				    <a href="{% url 'review' %}">Back to Review!</a>
+				    <a href="{% url 'logout' %}">Logout</a>
+				</div>
+			</nav>
+		</header>
+
+		<div class="middle">
+            <div>
+                <div>
+                {% if messages %}
+                {% for message in messages %}
+                    <div class="success">{{ message }}</div>
+                {% endfor %}
+                {% endif %}
+                </div>
+                <h1>Class Stats</h1>
+                <p>Average hot streak of students in this class: {{ average_streak }}</p>
+                <p>Average total logins of students in this class: {{ average_login_count }}</p>
+                <br>
+                <h2>Individual Student Stats</h2>
+                {% for student in students %}
+                <p>{{ student.user }}, Streak: {{ student.streak }}, Total Logins {{ student.login_count }}</p2>
+                {% endfor %}
+            </div>
+            <form method="POST">
+                {% csrf_token %}
+                <fieldset class="form-group">
+                    <legend>Update class</legend>
+                    {{ form|crispy }}
+                </fieldset>
+                <br>
+                <div class="form-group">
+                    <button type="submit">Submit Changes</button>
+                </div>
+            </form>
+		</div>
+        <footer>Created by Jon McDowell</footer>
+	</div>
+</body>
+{% endblock content %}
